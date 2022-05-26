@@ -1,0 +1,10 @@
+Project Idea:
+
+
+A simple Card Matching game. 
+
+User will be able to match a minimum of 6 pairs of cards,
+the programe will first show the cards briefly before fliping them over. 
+The user will then be able to flip the cards two at a time, if the match is correct the cards will stay
+right side up, if not they will flip back over so the user can continue playing. 
+Once all pairs have been made the game will end and the user will have the option to play again. 
