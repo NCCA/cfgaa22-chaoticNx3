@@ -1,1 +1,1 @@
-THIS IS A TEST README
+The report is located in README.md in the TileGame folder
