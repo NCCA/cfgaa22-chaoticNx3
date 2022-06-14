@@ -14,6 +14,7 @@
 #include <list>
 #include <algorithm>
 #include <iterator>
+#include <random>
 
 NGLScene::NGLScene()
 {
@@ -69,6 +70,9 @@ void NGLScene::initializeGL()
   ngl::ShaderLib::linkProgramObject( shaderProgram );
   // and make it active ready to load values
   ngl::ShaderLib::use(shaderProgram );
+
+  ngl::ShaderLib::loadShader(ColourCard, "shaders/CardVertex.glsl",
+                                                "shaders/CardFragment.glsl");
   // We now create our view matrix for a static camera
   ngl::Vec3 from(0,0,1);
   ngl::Vec3 to(0,0,0);
@@ -129,13 +133,20 @@ void NGLScene::initializeGL()
   m_selectionTool->setrotation(ngl::Vec3(90.0f,180.0f,0.0f));
   m_selectionTool->setposition(ngl::Vec3(-4.965f,2.48f,-10.01f));
 
-  ngl::Texture cardtextr ("textures/gasp.png");
+  ngl::Texture cardtextr ("textures/cata2.png");
   cardtextr.setMultiTexture(0);
   m_cardtexture.push_back(cardtextr.setTextureGL());
   
-  cardtextr.loadImage("textures/cata2.png");
+  cardtextr.loadImage("textures/gasp.jpg");
   cardtextr.setMultiTexture(1);
   m_cardtexture.push_back(cardtextr.setTextureGL());
+
+  std::random_device rd;
+  std::mt19937 g(rd());
+  std::shuffle(CardOrder.begin(),CardOrder.end(),g);
+  for (int i = 0; i < CardOrder.size(); i++) {
+        std::cout << CardOrder.at(i) << ' ';
+    }
 
 }
 
@@ -195,28 +206,30 @@ void NGLScene::timerEvent(QTimerEvent *_event)
 
 void NGLScene::loadMatricesToShader()
 {
-    ngl::ShaderLib::use("PBR");
-    struct transform
-    {
-      ngl::Mat4 MVP;
-      ngl::Mat4 normalMatrix;
-      ngl::Mat4 M;
-    };
+  ngl::ShaderLib::setUniform("MVP", m_project*m_view*m_transform.getMatrix());
+    // ngl::ShaderLib::use("PBR");
+    // struct transform
+    // {
+    //   ngl::Mat4 MVP;
+    //   ngl::Mat4 normalMatrix;
+    //   ngl::Mat4 M;
+    // };
 
-     transform t;
-     t.M=m_view*m_mouseGlobalTX*m_transform.getMatrix();
+    //  transform t;
+    //  t.M=m_view*m_mouseGlobalTX*m_transform.getMatrix();
 
-     t.MVP=m_project*t.M;
-     t.normalMatrix=t.M;
-     t.normalMatrix.inverse().transpose();
-     ngl::ShaderLib::setUniformBuffer("TransformUBO",sizeof(transform),&t.MVP.m_00);
-     ngl::ShaderLib::setUniform("lightPosition",(m_mouseGlobalTX*m_lightPos).toVec3());
+    //  t.MVP=m_project*t.M;
+    //  t.normalMatrix=t.M;
+    //  t.normalMatrix.inverse().transpose();
+    //  ngl::ShaderLib::setUniformBuffer("TransformUBO",sizeof(transform),&t.MVP.m_00);
+    //  ngl::ShaderLib::setUniform("lightPosition",(m_mouseGlobalTX*m_lightPos).toVec3());
 
 }
 
-void NGLScene::drawScene(const std::string &_shader)
+void NGLScene::drawScene()
 {
-  ngl::ShaderLib::use(_shader);
+  glEnable(GL_CULL_FACE);
+  ngl::ShaderLib::use(ColourCard);
   // clear the screen and depth buffer
   // Rotation based on the mouse position for our global
   // transform
@@ -232,6 +245,12 @@ void NGLScene::drawScene(const std::string &_shader)
   m_mouseGlobalTX.m_m[3][1] = m_modelPos.m_y;
   m_mouseGlobalTX.m_m[3][2] = m_modelPos.m_z;
 
+  //Front Card0
+
+  glPolygonMode(GL_FRONT_FACE,GL_FILL);
+  glCullFace(GL_FRONT);
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, m_cardtexture[0]);
 
   m_transform.reset();
   {
@@ -242,6 +261,28 @@ void NGLScene::drawScene(const std::string &_shader)
 
   } // and before a pop
 
+  //Back Card0
+
+  glPolygonMode(GL_BACK,GL_FILL);
+  glCullFace(GL_BACK);
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, m_cardtexture[1]);
+
+  m_transform.reset();
+  {
+    m_transform.setPosition(m_card->getanimtransform().getPosition());
+    m_transform.setRotation(m_card->getanimtransform().getRotation());
+    loadMatricesToShader();
+    ngl::VAOPrimitives::draw("plane0");
+
+  } // and before a pop
+
+  //Front Card1
+
+  glPolygonMode(GL_FRONT_FACE,GL_FILL);
+  glCullFace(GL_FRONT);
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, m_cardtexture[1]);
   m_transform.reset();
   {
     m_transform.setPosition(m_card1->getanimtransform().getPosition());
@@ -249,6 +290,23 @@ void NGLScene::drawScene(const std::string &_shader)
     loadMatricesToShader();
     ngl::VAOPrimitives::draw("plane1");
   } // and before a pop
+
+  //Back Card1
+
+  glPolygonMode(GL_BACK,GL_FILL);
+  glCullFace(GL_BACK);
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, m_cardtexture[0]);
+
+  m_transform.reset();
+  {
+    m_transform.setPosition(m_card1->getanimtransform().getPosition());
+    m_transform.setRotation(m_card1->getanimtransform().getRotation());
+    loadMatricesToShader();
+    ngl::VAOPrimitives::draw("plane1");
+  } // and before a pop
+
+  //Front Card2
 
   m_transform.reset();
   {
@@ -299,11 +357,7 @@ void NGLScene::paintGL()
   // clear the screen and depth buffer
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glViewport(0,0,m_win.width,m_win.height);
-  glActiveTexture(GL_TEXTURE0);
-  glBindTexture(GL_TEXTURE_2D, m_cardtexture[0]);
-  glActiveTexture(GL_TEXTURE1);
-  glBindTexture(GL_TEXTURE_2D, m_cardtexture[1]);
-  drawScene("PBR");
+  drawScene();
 
 }
 

@@ -74,6 +74,7 @@ private:
     ngl::Transformation m_card4anim;
     ngl::Transformation m_card5anim;
     std::vector<GLuint>m_cardtexture;
+    std::vector<int>CardOrder = {0,0,1,1,2,2};
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief the model position for mouse movement
     //----------------------------------------------------------------------------------------------------------------------
@@ -128,7 +129,7 @@ private:
     /// @brief draw our scene passing in the shader to use
     /// @param[in] _shader the name of the shader to use when drawing
     //----------------------------------------------------------------------------------------------------------------------
-    void drawScene(const std::string &_shader);
+    void drawScene();
     void timerEvent(QTimerEvent *_event) override;
     //animation status checkers
     //attempt checkers
@@ -149,7 +150,8 @@ private:
     
     int num_ofclicks = 0;
 
-
+    const char*ColourCard = "ColourCard";
+    
 };
 
 

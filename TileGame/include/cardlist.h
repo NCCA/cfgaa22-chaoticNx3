@@ -21,6 +21,7 @@ class cardlist
 		void setrotation(ngl::Vec3 _rotation);
 		void setposition(ngl::Vec3 _position);
 		ngl::Transformation card_ls(ngl::Vec3 _getcardPL);
+		
 	private :
 		ngl::Transformation m_cardanimation;
 		ngl::Transformation m_getcardPL;
