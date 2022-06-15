@@ -67,12 +67,6 @@ private:
     /// @brief transformation stack for the gl transformations etc
     //----------------------------------------------------------------------------------------------------------------------
     ngl::Transformation m_transform;
-    ngl::Transformation m_card0anim;
-    ngl::Transformation m_card1anim;
-    ngl::Transformation m_card2anim;
-    ngl::Transformation m_card3anim;
-    ngl::Transformation m_card4anim;
-    ngl::Transformation m_card5anim;
     std::vector<GLuint>m_cardtexture;
     std::vector<int>CardOrder = {0,0,1,1,2,2};
     //----------------------------------------------------------------------------------------------------------------------
@@ -109,6 +103,10 @@ private:
     /// @brief this method is called every time a mouse is moved
     /// @param _event the Qt Event structure
     //----------------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief this method is called every time a mouse is moved
+    /// @param _event the Qt Event structure
+    //----------------------------------------------------------------------------------------------------------------------
     void mousePressEvent ( QMouseEvent *_event) override;
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief this method is called everytime the mouse button is released
@@ -133,12 +131,24 @@ private:
     void timerEvent(QTimerEvent *_event) override;
     //animation status checkers
     //attempt checkers
+    bool startGame = false;
+    bool gamestartAnim = false;
     bool m_attemptOne = false;
     bool m_attemptTwo = false;
     //pair checkers
     bool m_isPairedOne = false;
     bool m_isPairedTwo = false;
     bool m_isPairedThree = false;
+
+    bool scrambleTextures = false; 
+    bool flipitback = false;
+
+    int choiceOnetxt;
+    int choiceTwotxt;
+    int card1num;
+    int card2num;
+
+    
     //classforcardanimstuff
     std::unique_ptr<cardlist>m_card;
     std::unique_ptr<cardlist>m_card1;

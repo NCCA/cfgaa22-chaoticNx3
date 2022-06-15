@@ -22,6 +22,21 @@ bool cardlist::getcardstatus()
 	return m_iscardflipped;
 }
 
+bool cardlist::getflipitback()
+{
+	return m_flipitback;
+}
+
+int cardlist::getTextureStatus()
+{
+	return m_cardTextureValue;
+}
+
+void cardlist::setTextureStatus(int _cardTextureValue)
+{
+	m_cardTextureValue = _cardTextureValue;
+}
+
 ngl::Transformation cardlist::card_ls(ngl::Vec3 _getcardPL)
 {
 	return m_getcardPL;
@@ -34,11 +49,19 @@ void cardlist::setanimationstatus(bool _isAnimtrue)
 {
 	m_isAnimTrue = _isAnimtrue;
 }
+void cardlist::setstartanimationstatus(bool _isStartAnimtrue)
+{
+	m_isStartAnimTrue = _isStartAnimtrue;
+}
 void cardlist::setcardstatus(bool _iscardflipped)
 {
 	m_iscardflipped = _iscardflipped;
 }
 
+void cardlist::setflipitback(bool _flipitback)
+{
+	m_flipitback = _flipitback;
+}
 void cardlist::setrotation(ngl::Vec3 _rotation)
 {
 	m_cardanimation.setRotation(_rotation);
