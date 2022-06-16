@@ -104,31 +104,44 @@ void NGLScene::initializeGL()
   // this timer is going to trigger an event every 40ms which will be processed in the
   //
   m_lightTimer =startTimer(40);
+  clocktimer.start();
 
   m_card = std::make_unique<cardlist>(false,false);
   m_card->setrotation(ngl::Vec3(90.0f,0.0f,180.0f));
   m_card->setposition(ngl::Vec3(-5.0f,2.5f,-10.0f));
-  
-  
-  m_card1 = std::make_unique<cardlist>(false,false);
-  m_card1->setrotation(ngl::Vec3(90.0f,0.0f,180.0f));
-  m_card1->setposition(ngl::Vec3(-2.5f,2.5f,-10.0f));
 
-  m_card2 = std::make_unique<cardlist>(false,false);
-  m_card2->setrotation(ngl::Vec3(90.0f,0.0f,180.0f));
-  m_card2->setposition(ngl::Vec3(0.0f,2.5f,-10.0f));
+  //adds pointer to list
+  cards.emplace_back(std::move(m_card));
 
-  m_card3 = std::make_unique<cardlist>(false,false);
-  m_card3->setrotation(ngl::Vec3(90.0f,0.0f,180.0f));
-  m_card3->setposition(ngl::Vec3(0.0f,-1.0f,-10.0f));
+  m_card = std::make_unique<cardlist>(false,false);
+  m_card->setrotation(ngl::Vec3(90.0f,0.0f,180.0f));
+  m_card->setposition(ngl::Vec3(-2.5f,2.5f,-10.0f));
 
-  m_card4 = std::make_unique<cardlist>(false,false);
-  m_card4->setrotation(ngl::Vec3(90.0f,0.0f,180.0f));
-  m_card4->setposition(ngl::Vec3(-2.5f,-1.0f,-10.0f));
+  cards.emplace_back(std::move(m_card));
 
-  m_card5 = std::make_unique<cardlist>(false,false);
-  m_card5->setrotation(ngl::Vec3(90.0f,0.0f,180.0f));
-  m_card5->setposition(ngl::Vec3(-5.0f,-1.0f,-10.0f));
+  m_card = std::make_unique<cardlist>(false,false);
+  m_card->setrotation(ngl::Vec3(90.0f,0.0f,180.0f));
+  m_card->setposition(ngl::Vec3(0.0f,2.5f,-10.0f));
+
+  cards.emplace_back(std::move(m_card));
+
+  m_card = std::make_unique<cardlist>(false,false);
+  m_card->setrotation(ngl::Vec3(90.0f,0.0f,180.0f));
+  m_card->setposition(ngl::Vec3(0.0f,-1.0f,-10.0f));
+
+  cards.emplace_back(std::move(m_card));
+
+  m_card = std::make_unique<cardlist>(false,false);
+  m_card->setrotation(ngl::Vec3(90.0f,0.0f,180.0f));
+  m_card->setposition(ngl::Vec3(-2.5f,-1.0f,-10.0f));
+
+  cards.emplace_back(std::move(m_card));
+
+  m_card = std::make_unique<cardlist>(false,false);
+  m_card->setrotation(ngl::Vec3(90.0f,0.0f,180.0f));
+  m_card->setposition(ngl::Vec3(-5.0f,-1.0f,-10.0f));
+
+  cards.emplace_back(std::move(m_card));
 
   m_selectionTool = std::make_unique<cardlist>(false,false);
   m_selectionTool->setrotation(ngl::Vec3(90.0f,180.0f,0.0f));
@@ -170,135 +183,108 @@ void NGLScene::initializeGL()
 void NGLScene::timerEvent(QTimerEvent *_event)
 {
   
-  if (m_card->getanimationstatus()==true)
-  {
-    m_card->setrotation(m_card->getanimtransform().getRotation()+ngl::Vec3(0,40,0));
-    if (m_card->getanimtransform().getRotation().m_y>=180)
-    {
-      m_card->setrotation(ngl::Vec3(90,180,0));
-      m_card->setanimationstatus(false);
-      m_card->setcardstatus(true); 
-    }
-  }
-  if (m_card1->getanimationstatus()==true)
-  {
-    m_card1->setrotation(m_card1->getanimtransform().getRotation()+ngl::Vec3(0,40,0));
-    if (m_card1->getanimtransform().getRotation().m_y>=180)
-    {
-      m_card1->setrotation(ngl::Vec3(90,180,0));
-      m_card1->setanimationstatus(false);
-      m_card1->setcardstatus(true); 
-    }
-  }
-  if (m_card2->getanimationstatus()==true)
-  {
-    m_card2->setrotation(m_card2->getanimtransform().getRotation()+ngl::Vec3(0,40,0));
-    if (m_card2->getanimtransform().getRotation().m_y>=180)
-    {
-      m_card2->setrotation(ngl::Vec3(90,180,0));
-      m_card2->setanimationstatus(false);
-      m_card2->setcardstatus(true); 
-    }
-  }
-  if (m_card3->getanimationstatus()==true)
-  {
-    m_card3->setrotation(m_card3->getanimtransform().getRotation()+ngl::Vec3(0,40,0));
-    if (m_card3->getanimtransform().getRotation().m_y>=180)
-    {
-      m_card3->setrotation(ngl::Vec3(90,180,0));
-      m_card3->setanimationstatus(false);
-      m_card3->setcardstatus(true); 
-    }
-  }
-  if (m_card4->getanimationstatus()==true)
-  {
-    m_card4->setrotation(m_card4->getanimtransform().getRotation()+ngl::Vec3(0,40,0));
-    if (m_card4->getanimtransform().getRotation().m_y>=180)
-    {
-      m_card4->setrotation(ngl::Vec3(90,180,0));
-      m_card4->setanimationstatus(false);
-      m_card4->setcardstatus(true); 
-    }
-  }
-  if (m_card5->getanimationstatus()==true)
-  {
-    m_card5->setrotation(m_card5->getanimtransform().getRotation()+ngl::Vec3(0,40,0));
-    if (m_card5->getanimtransform().getRotation().m_y>=180)
-    {
-      m_card5->setrotation(ngl::Vec3(90,180,0));
-      m_card5->setanimationstatus(false);
-      m_card5->setcardstatus(true); 
-    }
-  }
+  // in game card flips
 
-  if (m_card->getcardstatus()==true && m_card->getflipitback()==true)
+  for (int i = 0; i<cards.size(); i++)
   {
-    m_card->setrotation(m_card->getanimtransform().getRotation()+ngl::Vec3(0,40,0));
-    if (m_card->getanimtransform().getRotation().m_y>=0)
+    if (cards[i]->getanimationstatus()==true)
     {
-      m_card->setrotation(ngl::Vec3(90,0,0));
-      m_card->setflipitback(false);
-      m_card->setcardstatus(false); 
-      
-    }
-  }
-
-  if (m_card1->getcardstatus()==true && m_card1->getflipitback()==true)
-  {
-    m_card1->setrotation(m_card1->getanimtransform().getRotation()+ngl::Vec3(0,40,0));
-    if (m_card1->getanimtransform().getRotation().m_y>=0)
-    {
-      m_card1->setrotation(ngl::Vec3(90,0,0));
-      m_card1->setflipitback(false);
-      m_card1->setcardstatus(false); 
-    }
-  }
-
-  if (m_card2->getcardstatus()==true && m_card2->getflipitback()==true)
-  {
-    m_card2->setrotation(m_card->getanimtransform().getRotation()+ngl::Vec3(0,40,0));
-    if (m_card2->getanimtransform().getRotation().m_y>=0)
-    {
-      m_card2->setrotation(ngl::Vec3(90,0,0)); 
-      m_card2->setflipitback(false);
-      m_card2->setcardstatus(false); 
-    }
-  }
-
-  if (m_card3->getcardstatus()==true && m_card3->getflipitback()==true)
-  {
-    m_card3->setrotation(m_card3->getanimtransform().getRotation()+ngl::Vec3(0,40,0));
-    if (m_card3->getanimtransform().getRotation().m_y>=0)
-    {
-      m_card3->setrotation(ngl::Vec3(90,0,0));
-      m_card3->setflipitback(false);
-      m_card3->setcardstatus(false); 
-    }
-  }
-
-  if (m_card4->getcardstatus()==true && m_card4->getflipitback()==true)
-  {
-    m_card4->setrotation(m_card4->getanimtransform().getRotation()+ngl::Vec3(0,40,0));
-    if (m_card4->getanimtransform().getRotation().m_y>=0)
-    {
-      m_card4->setrotation(ngl::Vec3(90,0,0)); 
-      m_card4->setflipitback(false);
-      m_card4->setcardstatus(false); 
-    }
-  }
-
-  if (m_card5->getcardstatus()==true && m_card5->getflipitback()==true)
-  {
-    m_card5->setrotation(m_card->getanimtransform().getRotation()+ngl::Vec3(0,40,0));
-    if (m_card5->getanimtransform().getRotation().m_y>=0)
-    {
-      m_card5->setrotation(ngl::Vec3(90,0,0));
-      m_card5->setflipitback(false);
-      m_card5->setcardstatus(false); 
+      cards[i]->setrotation(cards[i]->getanimtransform().getRotation()+ngl::Vec3(0,40,0));
+      if (cards[i]->getanimtransform().getRotation().m_y>=180)
+      {
+        cards[i]->setrotation(ngl::Vec3(90,180,180));
+        cards[i]->setanimationstatus(false);
+        cards[i]->setcardstatus(true); 
+      }
     }
   }
   
+  for (int i = 0; i<cards.size(); i++)
+  {
+    if (cards[i]->getcardstatus()==true && cards[i]->getflipitback()==true)
+    {
+      cards[i]->setrotation(cards[i]->getanimtransform().getRotation()+ngl::Vec3(0,40,0));
+      if (cards[i]->getanimtransform().getRotation().m_y>=0)
+      {
+        cards[i]->setrotation(ngl::Vec3(90,0,180));
+        cards[i]->setflipitback(false);
+        cards[i]->setcardstatus(false); 
+        
+      }
+    }
+  }
 
+  //restart function
+
+  bool allflipped = true;
+  //flips facedown if not already facedown
+  for (int i = 0; i<cards.size(); i++)
+  {
+    if (cards[i]->getcardstatus()==true && restartgamestart == true)
+    {
+      cards[i]->setrotation(cards[i]->getanimtransform().getRotation()+ngl::Vec3(0,40,0));
+      if (cards[i]->getanimtransform().getRotation().m_y>=0)
+      {
+        cards[i]->setrotation(ngl::Vec3(90,0,180));
+        cards[i]->setflipitback(false);
+        cards[i]->setcardstatus(false); 
+        
+      }
+      else
+      {
+        allflipped = false;
+      }
+    }
+  }
+
+  //checks everything is face down
+  if (allflipped == true)
+  {
+    restartgamestart = false;
+  }
+  
+  if (shuffledone == true && restartgamestart == false)
+  {
+    for (int i = 0; i<cards.size(); i++)
+    {
+      cards[i]->setrotation(cards[i]->getanimtransform().getRotation()+ngl::Vec3(0,40,0));
+      if (cards[i]->getanimtransform().getRotation().m_y>=180)
+      {
+        cards[i]->setrotation(ngl::Vec3(90,180,180));
+        cards[i]->setcardstatus(true); 
+        shuffledone = false;
+      }
+    }
+  }
+
+  if (clocktimer.elapsed() >= startTime && clocktimer.elapsed() <= endTime)
+  {
+    istimerunning = true;
+    std::cout<<clocktimer.elapsed()<<" \n";
+  }
+  else
+  {
+    istimerunning = false;
+  }
+
+  if (istimerunning == false && resetreveal == true)
+  {
+    for (int i = 0; i<cards.size(); i++)
+    {
+      if (cards[i]->getcardstatus()==true)
+      {
+        cards[i]->setrotation(cards[i]->getanimtransform().getRotation()+ngl::Vec3(0,40,0));
+        if (cards[i]->getanimtransform().getRotation().m_y>=0)
+        {
+          cards[i]->setrotation(ngl::Vec3(90,0,180));
+          cards[i]->setcardstatus(false); 
+          resetreveal = false;
+        }
+      }
+      
+    }
+  }
+  
 
   update();
 }
@@ -354,8 +340,8 @@ void NGLScene::drawScene()
 
   m_transform.reset();
   {
-    m_transform.setPosition(m_card->getanimtransform().getPosition());
-    m_transform.setRotation(m_card->getanimtransform().getRotation());
+    m_transform.setPosition(cards[0]->getanimtransform().getPosition());
+    m_transform.setRotation(cards[0]->getanimtransform().getRotation());
     loadMatricesToShader();
     ngl::VAOPrimitives::draw("plane0");
 
@@ -370,8 +356,8 @@ void NGLScene::drawScene()
 
   m_transform.reset();
   {
-    m_transform.setPosition(m_card->getanimtransform().getPosition());
-    m_transform.setRotation(m_card->getanimtransform().getRotation());
+    m_transform.setPosition(cards[0]->getanimtransform().getPosition());
+    m_transform.setRotation(cards[0]->getanimtransform().getRotation());
     loadMatricesToShader();
     ngl::VAOPrimitives::draw("plane0");
 
@@ -385,8 +371,8 @@ void NGLScene::drawScene()
   glBindTexture(GL_TEXTURE_2D, m_cardtexture[CardOrder[1]]);
   m_transform.reset();
   {
-    m_transform.setPosition(m_card1->getanimtransform().getPosition());
-    m_transform.setRotation(m_card1->getanimtransform().getRotation());
+    m_transform.setPosition(cards[1]->getanimtransform().getPosition());
+    m_transform.setRotation(cards[1]->getanimtransform().getRotation());
     loadMatricesToShader();
     ngl::VAOPrimitives::draw("plane1");
   } // and before a pop
@@ -399,8 +385,8 @@ void NGLScene::drawScene()
   glBindTexture(GL_TEXTURE_2D, m_cardtexture[3]);
   m_transform.reset();
   {
-    m_transform.setPosition(m_card1->getanimtransform().getPosition());
-    m_transform.setRotation(m_card1->getanimtransform().getRotation());
+    m_transform.setPosition(cards[1]->getanimtransform().getPosition());
+    m_transform.setRotation(cards[1]->getanimtransform().getRotation());
     loadMatricesToShader();
     ngl::VAOPrimitives::draw("plane1");
   } // and before a pop
@@ -413,8 +399,8 @@ void NGLScene::drawScene()
   glBindTexture(GL_TEXTURE_2D, m_cardtexture[CardOrder[2]]);
   m_transform.reset();
   {
-    m_transform.setPosition(m_card2->getanimtransform().getPosition());
-    m_transform.setRotation(m_card2->getanimtransform().getRotation());
+    m_transform.setPosition(cards[2]->getanimtransform().getPosition());
+    m_transform.setRotation(cards[2]->getanimtransform().getRotation());
     loadMatricesToShader();
     ngl::VAOPrimitives::draw("plane2");
   } // and before a pop
@@ -427,8 +413,8 @@ void NGLScene::drawScene()
   glBindTexture(GL_TEXTURE_2D, m_cardtexture[3]);
   m_transform.reset();
   {
-    m_transform.setPosition(m_card2->getanimtransform().getPosition());
-    m_transform.setRotation(m_card2->getanimtransform().getRotation());
+    m_transform.setPosition(cards[2]->getanimtransform().getPosition());
+    m_transform.setRotation(cards[2]->getanimtransform().getRotation());
     loadMatricesToShader();
     ngl::VAOPrimitives::draw("plane2");
   } // and before a pop
@@ -441,8 +427,8 @@ void NGLScene::drawScene()
   glBindTexture(GL_TEXTURE_2D, m_cardtexture[CardOrder[3]]);
   m_transform.reset();
   {
-    m_transform.setPosition(m_card3->getanimtransform().getPosition());
-    m_transform.setRotation(m_card3->getanimtransform().getRotation());
+    m_transform.setPosition(cards[3]->getanimtransform().getPosition());
+    m_transform.setRotation(cards[3]->getanimtransform().getRotation());
     loadMatricesToShader();
     ngl::VAOPrimitives::draw("plane3");
   } // and before a pop
@@ -455,8 +441,8 @@ void NGLScene::drawScene()
   glBindTexture(GL_TEXTURE_2D, m_cardtexture[3]);
   m_transform.reset();
   {
-    m_transform.setPosition(m_card3->getanimtransform().getPosition());
-    m_transform.setRotation(m_card3->getanimtransform().getRotation());
+    m_transform.setPosition(cards[3]->getanimtransform().getPosition());
+    m_transform.setRotation(cards[3]->getanimtransform().getRotation());
     loadMatricesToShader();
     ngl::VAOPrimitives::draw("plane3");
   } // and before a pop
@@ -469,8 +455,8 @@ void NGLScene::drawScene()
   glBindTexture(GL_TEXTURE_2D, m_cardtexture[CardOrder[4]]);
   m_transform.reset();
   {
-    m_transform.setPosition(m_card4->getanimtransform().getPosition());
-    m_transform.setRotation(m_card4->getanimtransform().getRotation());
+    m_transform.setPosition(cards[4]->getanimtransform().getPosition());
+    m_transform.setRotation(cards[4]->getanimtransform().getRotation());
     loadMatricesToShader();
     ngl::VAOPrimitives::draw("plane4");
   } // and before a pop
@@ -483,8 +469,8 @@ void NGLScene::drawScene()
   glBindTexture(GL_TEXTURE_2D, m_cardtexture[3]);
   m_transform.reset();
   {
-    m_transform.setPosition(m_card4->getanimtransform().getPosition());
-    m_transform.setRotation(m_card4->getanimtransform().getRotation());
+    m_transform.setPosition(cards[4]->getanimtransform().getPosition());
+    m_transform.setRotation(cards[4]->getanimtransform().getRotation());
     loadMatricesToShader();
     ngl::VAOPrimitives::draw("plane4");
   } // and before a pop
@@ -499,8 +485,8 @@ void NGLScene::drawScene()
   glBindTexture(GL_TEXTURE_2D, m_cardtexture[CardOrder[5]]);
   m_transform.reset();
   {
-    m_transform.setPosition(m_card5->getanimtransform().getPosition());
-    m_transform.setRotation(m_card5->getanimtransform().getRotation());
+    m_transform.setPosition(cards[5]->getanimtransform().getPosition());
+    m_transform.setRotation(cards[5]->getanimtransform().getRotation());
     loadMatricesToShader();
     ngl::VAOPrimitives::draw("plane5");
   } // and before a pop
@@ -513,8 +499,8 @@ void NGLScene::drawScene()
   glBindTexture(GL_TEXTURE_2D, m_cardtexture[3]);
   m_transform.reset();
   {
-    m_transform.setPosition(m_card5->getanimtransform().getPosition());
-    m_transform.setRotation(m_card5->getanimtransform().getRotation());
+    m_transform.setPosition(cards[5]->getanimtransform().getPosition());
+    m_transform.setRotation(cards[5]->getanimtransform().getRotation());
     loadMatricesToShader();
     ngl::VAOPrimitives::draw("plane5");
   } // and before a pop
@@ -552,13 +538,28 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
 {
   // this method is called every time the main window recives a key event.
   // we then switch on the key value and set the camera in the GLWindow
-  if (_event->key() == Qt::Key_Tab)
+
+
+  if (_event->key() == Qt::Key_R || _event->key() == Qt::Key_Tab)
   {
-    startGame = true;
-    gamestartAnim = true;
-    scrambleTextures = true;
+    gamestart = true;
+    restartgamestart = true;
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(CardOrder.begin(),CardOrder.end(),g);
+    shuffledone = true;
+    resetreveal = true;
+    startTime = clocktimer.elapsed();
+    endTime = clocktimer.elapsed() + 500;
+    m_attemptOne = false;
+    m_attemptTwo = false;
+    m_isPairedOne = false;
+    m_isPairedTwo = false;
+    m_isPairedThree = false;
+
+    printf("restarting!");
   }
-  if (startGame == true && _event->key() == Qt::Key_Up || _event->key() == Qt::Key_W)
+  if (gamestart == true && _event->key() == Qt::Key_Up || _event->key() == Qt::Key_Right || _event->key() == Qt::Key_W || _event->key() == Qt::Key_D)
   {
     //  for (int i=0; i<=5; i++) mylist.push_back (i+1);
     //  std::cout << "mylist:";
@@ -592,7 +593,7 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
     }
     printf("%d",num_ofclicks);
   }
-  if (startGame == true && _event->key() == Qt::Key_Down || _event->key() == Qt::Key_S)
+  if (gamestart == true && _event->key() == Qt::Key_Down || _event->key() == Qt::Key_Left || _event->key() == Qt::Key_S || _event->key() == Qt::Key_A)
   {
     //  for (int i=0; i<=5; i++) mylist.push_back (i+1);
     //  std::cout << "mylist:";
@@ -609,200 +610,55 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
     if (num_ofclicks == 0){
       m_selectionTool->setposition(ngl::Vec3(-4.965f,2.48f,-10.01f));
     }
+    if (num_ofclicks == 1){
+      m_selectionTool->setposition(ngl::Vec3(-2.466f,2.48f,-10.01f));
+    }
+    if (num_ofclicks == 2){
+      m_selectionTool->setposition(ngl::Vec3(0.0465f,2.48f,-10.01f));
+    }
+    if (num_ofclicks == 3){
+      m_selectionTool->setposition(ngl::Vec3(0.0465f,-0.98f,-10.01f));
+    }
+    if (num_ofclicks == 4){
+      m_selectionTool->setposition(ngl::Vec3(-2.466f,-0.98f,-10.01f));
+    }
+    if (num_ofclicks == 5){
+      m_selectionTool->setposition(ngl::Vec3(-4.965f,-0.98f,-10.01f));
+    }
   }
-  if (startGame == true && _event->key() == Qt::Key_Return || _event->key() == Qt::Key_Enter)
+  if (gamestart == true && _event->key() == Qt::Key_Return || _event->key() == Qt::Key_Enter)
   {
-    if (num_ofclicks == 0 && m_card->getcardstatus() == false)
+
+    if (cards[num_ofclicks]->getcardstatus() == false)
     {
-      m_card->setanimationstatus(true);
+      cards[num_ofclicks]->setanimationstatus(true);
       if (m_attemptOne == true){
         m_attemptTwo = true;
-        if (CardOrder[0] == 0){
-          m_card->setTextureStatus(0);
+        if (CardOrder[num_ofclicks] == 0){
+          cards[num_ofclicks]->setTextureStatus(0);
         }
-        if (CardOrder[0] == 1){
-           m_card->setTextureStatus(1);
+        if (CardOrder[num_ofclicks] == 1){
+          cards[num_ofclicks]->setTextureStatus(1);
          }
-        if (CardOrder[0] == 2){
-           m_card->setTextureStatus(2);
+        if (CardOrder[num_ofclicks] == 2){
+          cards[num_ofclicks]->setTextureStatus(2);
         }
-        choiceTwotxt = m_card->getTextureStatus();
-        card2num = 0;
-        
+        choiceTwotxt = cards[num_ofclicks]->getTextureStatus();
+        card2num = num_ofclicks;  
       }
        if (m_attemptOne == false){
         m_attemptOne = true;                                  
-        if (CardOrder[0] == 0){
-          m_card->setTextureStatus(0);
+        if (CardOrder[num_ofclicks] == 0){
+          cards[num_ofclicks]->setTextureStatus(0);
         }
-        if (CardOrder[0] == 1){
-           m_card->setTextureStatus(1);
+        if (CardOrder[num_ofclicks] == 1){
+           cards[num_ofclicks]->setTextureStatus(1);
          }
-        if (CardOrder[0] == 2){
-           m_card->setTextureStatus(2);
+        if (CardOrder[num_ofclicks] == 2){
+           cards[num_ofclicks]->setTextureStatus(2);
         }
-        choiceOnetxt = m_card->getTextureStatus();
-        card1num = 0;
-      }
-    }
-    if (num_ofclicks == 1 && m_card1->getcardstatus() == false){
-      printf("1\n");
-      m_card1->setanimationstatus(true);
-      if (m_attemptOne == true){
-        m_attemptTwo = true;
-        if (CardOrder[1] == 0){
-          m_card1->setTextureStatus(0);
-        }
-        if (CardOrder[1] == 1){
-           m_card1->setTextureStatus(1);
-         }
-        if (CardOrder[1] == 2){
-           m_card1->setTextureStatus(2);
-        }
-        choiceTwotxt = m_card1->getTextureStatus();
-        card2num = 1;
-      }
-      if (m_attemptOne == false){
-        m_attemptOne = true;
-        if (CardOrder[1] == 0){
-          m_card1->setTextureStatus(0);
-        }
-        if (CardOrder[1] == 1){
-           m_card1->setTextureStatus(1);
-         }
-        if (CardOrder[1] == 2){
-           m_card1->setTextureStatus(2);
-        }
-        choiceOnetxt = m_card1->getTextureStatus();
-        card1num = 1;
-      }
-    }
-    if (num_ofclicks == 2 && m_card2->getcardstatus() == false){
-      printf("2\n");
-      m_card2->setanimationstatus(true);
-      if (m_attemptOne == true){
-        m_attemptTwo = true;
-        if (CardOrder[2] == 0){
-          m_card2->setTextureStatus(0);
-        }
-        if (CardOrder[2] == 1){
-           m_card2->setTextureStatus(1);
-         }
-        if (CardOrder[2] == 2){
-           m_card2->setTextureStatus(2);
-        }
-        choiceTwotxt = m_card2->getTextureStatus();
-        card2num = 2;
-      }
-      if (m_attemptOne == false){
-        m_attemptOne = true;
-        if (CardOrder[2] == 0){
-          m_card2->setTextureStatus(0);
-        }
-        if (CardOrder[2] == 1){
-           m_card2->setTextureStatus(1);
-         }
-        if (CardOrder[2] == 2){
-           m_card2->setTextureStatus(2);
-        }
-        choiceOnetxt = m_card2->getTextureStatus();
-        card1num = 2;
-      }
-    }
-    if (num_ofclicks == 3 && m_card3->getcardstatus() == false){
-      printf("3\n");
-      m_card3->setanimationstatus(true);
-      if (m_attemptOne == true){
-        m_attemptTwo = true;
-        if (CardOrder[3] == 0){
-          m_card3->setTextureStatus(0);
-        }
-        if (CardOrder[3] == 1){
-           m_card3->setTextureStatus(1);
-         }
-        if (CardOrder[3] == 2){
-           m_card3->setTextureStatus(2);
-        }
-        choiceTwotxt = m_card3->getTextureStatus();
-        card2num = 3;
-      }
-      if (m_attemptOne == false){
-        m_attemptOne = true;
-        if (CardOrder[3] == 0){
-          m_card3->setTextureStatus(0);
-        }
-        if (CardOrder[3] == 1){
-           m_card3->setTextureStatus(1);
-         }
-        if (CardOrder[3] == 2){
-           m_card3->setTextureStatus(2);
-        }
-        choiceOnetxt = m_card3->getTextureStatus();
-        card1num = 3;
-      }
-    }
-    if (num_ofclicks == 4 && m_card4->getcardstatus() == false){
-      printf("4\n");
-      m_card4->setanimationstatus(true);
-      if (m_attemptOne == true){
-        m_attemptTwo = true;
-        if (CardOrder[4] == 0){
-          m_card4->setTextureStatus(0);
-        }
-        if (CardOrder[4] == 1){
-          m_card4->setTextureStatus(1);
-         }
-        if (CardOrder[4] == 2){
-          m_card4->setTextureStatus(2);
-        }
-        choiceTwotxt = m_card4->getTextureStatus();
-        card2num = 4;
-      }
-      if (m_attemptOne == false){
-        m_attemptOne = true;
-        if (CardOrder[4] == 0){
-          m_card4->setTextureStatus(0);
-        }
-        if (CardOrder[4] == 1){
-           m_card4->setTextureStatus(1);
-         }
-        if (CardOrder[4] == 2){
-           m_card4->setTextureStatus(2);
-        }
-        choiceOnetxt = m_card4->getTextureStatus();
-        card1num = 4;
-      }
-    }
-    if (num_ofclicks == 5 && m_card5->getcardstatus() == false){
-      printf("5\n");
-      m_card5->setanimationstatus(true);
-      if (m_attemptOne == true){
-        m_attemptTwo = true;
-        if (CardOrder[5] == 0){
-          m_card5->setTextureStatus(0);
-        }
-        if (CardOrder[5] == 1){
-           m_card5->setTextureStatus(1);
-         }
-        if (CardOrder[5] == 2){
-           m_card5->setTextureStatus(2);
-        }
-        choiceTwotxt = m_card5->getTextureStatus();
-        card2num = 5;
-      }
-      if (m_attemptOne == false){
-        m_attemptOne = true;
-        if (CardOrder[5] == 0){
-          m_card5->setTextureStatus(0);
-        }
-        if (CardOrder[5] == 1){
-           m_card5->setTextureStatus(1);
-         }
-        if (CardOrder[5] == 2){
-           m_card5->setTextureStatus(2);
-        }
-        choiceOnetxt = m_card5->getTextureStatus();
-        card1num = 5;
+        choiceOnetxt = cards[num_ofclicks]->getTextureStatus();
+        card1num = num_ofclicks;
       }
     }
 
@@ -841,115 +697,49 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
       printf("seccond card num is: card %d\n",card2num);
       printf("oh no! you got it wrong!\n");
       printf("try again!\n");
-      if (m_card->getcardstatus() == true && card1num == 0 || card2num == 0)
+      for (int i = 0; i<cards.size(); i++)
       {
-        m_card->setflipitback(true);
-        printf("YOU FAILED FLIP CARD 0 BACK\n");
-      }
-      if (m_card1->getcardstatus() == true && card1num == 1 || card2num == 1)
-      {
-        m_card1->setflipitback(true);
-        printf("YOU FAILED FLIP CARD 1 BACK\n");
-      }
-      if (m_card2->getcardstatus() == true && card1num == 2 || card2num == 2)
-      {
-        m_card2->setflipitback(true);
-        printf("YOU FAILED FLIP CARD 2 BACK\n");
-      }
-      if (m_card3->getcardstatus() == true && card1num == 3 || card2num == 3)
-      {
-        m_card3->setflipitback(true);
-        printf("YOU FAILED FLIP CARD 3 BACK\n");
-      }
-      if (m_card4->getcardstatus() == true && card1num == 4 || card2num == 4)
-      {
-        m_card4->setflipitback(true);
-        printf("YOU FAILED FLIP CARD 4 BACK\n");
-      }
-      if (m_card5->getcardstatus() == true && card1num == 5 || card2num == 5)
-      {
-        m_card5->setflipitback(true);
-        printf("YOU FAILED FLIP CARD 5 BACK\n");
+        if (cards[i]->getcardstatus() == true && card1num == i || card2num == i)
+        {
+          cards[i]->setflipitback(true);
+          printf("YOU FAILED FLIP CARD %d BACK\n", i);
+        }
       }
       m_attemptOne=false;
       m_attemptTwo=false;
     }
 
-    if ((m_attemptOne == true) && (m_attemptTwo == true) && m_isPairedTwo == false)
+    if ((m_attemptOne == true) && (m_attemptTwo == true) && (m_isPairedTwo == false))
     {
       printf("first card num is: card %d\n",card1num);
       printf("seccond card num is: card %d\n",card2num);
       printf("oh no! you got it wrong!\n");
       printf("try again!\n");
-      if (m_card->getcardstatus() == true && card1num == 0 || card2num == 0)
+      for (int i = 0; i<cards.size(); i++)
       {
-        m_card->setflipitback(true);
-        printf("YOU FAILED FLIP CARD 0 BACK\n");
-      }
-      if (m_card1->getcardstatus() == true && card1num == 1 || card2num == 1)
-      {
-        m_card1->setflipitback(true);
-        printf("YOU FAILED FLIP CARD 1 BACK\n");
-      }
-      if (m_card2->getcardstatus() == true && card1num == 2 || card2num == 2)
-      {
-        m_card2->setflipitback(true);
-        printf("YOU FAILED FLIP CARD 2 BACK\n");
-      }
-      if (m_card3->getcardstatus() == true && card1num == 3 || card2num == 3)
-      {
-        m_card3->setflipitback(true);
-        printf("YOU FAILED FLIP CARD 3 BACK\n");
-      }
-      if (m_card4->getcardstatus() == true && card1num == 4 || card2num == 4)
-      {
-        m_card4->setflipitback(true);
-        printf("YOU FAILED FLIP CARD 4 BACK\n");
-      }
-      if (m_card5->getcardstatus() == true && card1num == 5 || card2num == 5)
-      {
-        m_card5->setflipitback(true);
-        printf("YOU FAILED FLIP CARD 5 BACK\n");
+        if (cards[i]->getcardstatus() == true && card1num == i || card2num == i)
+        {
+          cards[i]->setflipitback(true);
+          printf("YOU FAILED FLIP CARD %d BACK\n", i);
+        }
       }
       m_attemptOne=false;
       m_attemptTwo=false;
     }
 
-    if ((m_attemptOne == true) && (m_attemptTwo == true) && m_isPairedThree == false)
+    if ((m_attemptOne == true) && (m_attemptTwo == true) && (m_isPairedThree == false))
     {
       printf("first card num is: card %d\n",card1num);
       printf("seccond card num is: card %d\n",card2num);
       printf("oh no! you got it wrong!\n");
       printf("try again!\n");
-      if (m_card->getcardstatus() == true && card1num == 0 || card2num == 0)
+      for (int i = 0; i<cards.size(); i++)
       {
-        m_card->setflipitback(true);
-        printf("YOU FAILED FLIP CARD 0 BACK\n");
-      }
-      if (m_card1->getcardstatus() == true && card1num == 1 || card2num == 1)
-      {
-        m_card1->setflipitback(true);
-        printf("YOU FAILED FLIP CARD 1 BACK\n");
-      }
-      if (m_card2->getcardstatus() == true && card1num == 2 || card2num == 2)
-      {
-        m_card2->setflipitback(true);
-        printf("YOU FAILED FLIP CARD 2 BACK\n");
-      }
-      if (m_card3->getcardstatus() == true && card1num == 3 || card2num == 3)
-      {
-        m_card3->setflipitback(true);
-        printf("YOU FAILED FLIP CARD 3 BACK\n");
-      }
-      if (m_card4->getcardstatus() == true && card1num == 4 || card2num == 4)
-      {
-        m_card4->setflipitback(true);
-        printf("YOU FAILED FLIP CARD 4 BACK\n");
-      }
-      if (m_card5->getcardstatus() == true && card1num == 5 || card2num == 5)
-      {
-        m_card5->setflipitback(true);
-        printf("YOU FAILED FLIP CARD 5 BACK\n");
+        if (cards[i]->getcardstatus() == true && card1num == i || card2num == i)
+        {
+          cards[i]->setflipitback(true);
+          printf("YOU FAILED FLIP CARD %d BACK\n", i);
+        }
       }
       m_attemptOne=false;
       m_attemptTwo=false;

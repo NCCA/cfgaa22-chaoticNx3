@@ -1,6 +1,7 @@
 #ifndef NGLSCENE_H_
 #define NGLSCENE_H_
 #include <ngl/Mat4.h>
+#include <QElapsedTimer>
 #include "cardlist.h"
 #include <ngl/Transformation.h>
 #include <ngl/Vec3.h>
@@ -89,7 +90,11 @@ private:
     /// the angle of the light updated when the timer triggers to make it rotate
     //----------------------------------------------------------------------------------------------------------------------
     ngl::Real m_lightAngle;
-    
+    QElapsedTimer clocktimer;
+    bool istimerunning = false;
+    bool resetreveal = false;
+    int startTime;
+    int endTime;
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief method to load transform matrices to the shader
     //----------------------------------------------------------------------------------------------------------------------
@@ -131,8 +136,10 @@ private:
     void timerEvent(QTimerEvent *_event) override;
     //animation status checkers
     //attempt checkers
-    bool startGame = false;
-    bool gamestartAnim = false;
+    bool gamestart = false;
+    bool restartgamestart = false;
+    bool restartgameend = false;
+    bool shuffledone = false;
     bool m_attemptOne = false;
     bool m_attemptTwo = false;
     //pair checkers
@@ -140,7 +147,6 @@ private:
     bool m_isPairedTwo = false;
     bool m_isPairedThree = false;
 
-    bool scrambleTextures = false; 
     bool flipitback = false;
 
     int choiceOnetxt;
@@ -157,6 +163,7 @@ private:
     std::unique_ptr<cardlist>m_card4;
     std::unique_ptr<cardlist>m_card5;
     std::unique_ptr<cardlist>m_selectionTool;
+    std::vector<std::unique_ptr<cardlist>>cards;
     
     int num_ofclicks = 0;
 
