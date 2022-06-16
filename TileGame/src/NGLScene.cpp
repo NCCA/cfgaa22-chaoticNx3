@@ -44,9 +44,10 @@ void NGLScene::initializeGL()
   glEnable(GL_DEPTH_TEST);
   // enable multisampling for smoother drawing
   glEnable(GL_MULTISAMPLE);
-  
+  //create shader glsl's
   ngl::ShaderLib::loadShader(ColourCard, "shaders/CardVertex.glsl",
                                                 "shaders/CardFragment.glsl");
+  //create cards using ngl::VAOPrimitives triangle planes
   ngl::VAOPrimitives::createTrianglePlane("plane0",2,2.75,80,80,ngl::Vec3(0,1,0));
   ngl::VAOPrimitives::createTrianglePlane("plane1",2,2.75,80,80,ngl::Vec3(0,1,0));
   ngl::VAOPrimitives::createTrianglePlane("plane2",2,2.75,80,80,ngl::Vec3(0,1,0));
@@ -54,13 +55,14 @@ void NGLScene::initializeGL()
   ngl::VAOPrimitives::createTrianglePlane("plane4",2,2.75,80,80,ngl::Vec3(0,1,0));
   ngl::VAOPrimitives::createTrianglePlane("plane5",2,2.75,80,80,ngl::Vec3(0,1,0));
   ngl::VAOPrimitives::createTrianglePlane("selector",2.25,3,80,80,ngl::Vec3(0,1,0));
-  // as re-size is not explicitly called we need to do this.
+  //re-size is not explicitly called we need to do this.
   glViewport(0,0,width(),height());
-  // this timer is going to trigger an event every 40ms which will be processed in the
-  //
+  // this timer is going to trigger an event every 40ms
   m_lightTimer =startTimer(40);
+  // starts buffer timer
   clocktimer.start();
-
+  //first Card in Card Class
+  //Sets position and rotation values
   m_card = std::make_unique<cardlist>(false,false);
   m_card->setrotation(ngl::Vec3(90.0f,0.0f,180.0f));
   m_card->setposition(ngl::Vec3(-5.0f,2.5f,-10.0f));
@@ -68,40 +70,58 @@ void NGLScene::initializeGL()
   //adds pointer to list
   cards.emplace_back(std::move(m_card));
 
+  //Seccond Card in Card Class
+  //Sets position and rotation values
   m_card = std::make_unique<cardlist>(false,false);
   m_card->setrotation(ngl::Vec3(90.0f,0.0f,180.0f));
   m_card->setposition(ngl::Vec3(-2.5f,2.5f,-10.0f));
 
+  //adds pointer to list
   cards.emplace_back(std::move(m_card));
 
+  //third Card in Card Class
+  //Sets position and rotation values
   m_card = std::make_unique<cardlist>(false,false);
   m_card->setrotation(ngl::Vec3(90.0f,0.0f,180.0f));
   m_card->setposition(ngl::Vec3(0.0f,2.5f,-10.0f));
 
+  //adds pointer to list
   cards.emplace_back(std::move(m_card));
 
+  //forth Card in Card Class
+  //Sets position and rotation values
   m_card = std::make_unique<cardlist>(false,false);
   m_card->setrotation(ngl::Vec3(90.0f,0.0f,180.0f));
   m_card->setposition(ngl::Vec3(0.0f,-1.0f,-10.0f));
 
+  //adds pointer to list
   cards.emplace_back(std::move(m_card));
 
+  //fifth Card in Card Class
+  //Sets position and rotation values
   m_card = std::make_unique<cardlist>(false,false);
   m_card->setrotation(ngl::Vec3(90.0f,0.0f,180.0f));
   m_card->setposition(ngl::Vec3(-2.5f,-1.0f,-10.0f));
 
   cards.emplace_back(std::move(m_card));
 
+  //sixth Card in Card Class
+  //Sets position and rotation values
   m_card = std::make_unique<cardlist>(false,false);
   m_card->setrotation(ngl::Vec3(90.0f,0.0f,180.0f));
   m_card->setposition(ngl::Vec3(-5.0f,-1.0f,-10.0f));
 
+  //adds pointer to list
   cards.emplace_back(std::move(m_card));
 
+  //Selector
+  //Sets position and rotation values
   m_selectionTool = std::make_unique<cardlist>(false,false);
   m_selectionTool->setrotation(ngl::Vec3(90.0f,180.0f,0.0f));
   m_selectionTool->setposition(ngl::Vec3(-4.965f,2.48f,-10.01f));
 
+
+  //Setting texture and texture Pair values for cards
   ngl::Texture cardtextr ("textures/Card1.png");
   cardtextr.setMultiTexture(0);
   m_cardtexture.push_back(cardtextr.setTextureGL());
@@ -114,29 +134,26 @@ void NGLScene::initializeGL()
   cardtextr.setMultiTexture(2);
   m_cardtexture.push_back(cardtextr.setTextureGL());
 
+  //setting texture for back of all cards
   cardtextr.loadImage("textures/cardback.png");
   cardtextr.setMultiTexture(3);
   m_cardtexture.push_back(cardtextr.setTextureGL());
 
+  //setting texture for the selector
   cardtextr.loadImage("textures/selector.png");
   cardtextr.setMultiTexture(4);
   m_cardtexture.push_back(cardtextr.setTextureGL());
 
-
-  
+  //texture num suffeler for randomly assigned textures
   std::random_device rd;
   std::mt19937 g(rd());
   std::shuffle(CardOrder.begin(),CardOrder.end(),g);
-  
-  
-
 }
 
 void NGLScene::timerEvent(QTimerEvent *_event)
 {
   
-  // in game card flips
-
+  // in game loop card flip loop for all cards
   for (int i = 0; i<cards.size(); i++)
   {
     if (cards[i]->getanimationstatus()==true)
@@ -169,7 +186,7 @@ void NGLScene::timerEvent(QTimerEvent *_event)
   //restart function
 
   bool allflipped = true;
-  //flips facedown if not already facedown
+  //flips facedown if not already facedown in reset
   for (int i = 0; i<cards.size(); i++)
   {
     if (cards[i]->getcardstatus()==true && restartgamestart == true)
@@ -189,7 +206,7 @@ void NGLScene::timerEvent(QTimerEvent *_event)
     }
   }
 
-  //checks everything is face down
+  //checks everything is face down in reset
   if (allflipped == true)
   {
     restartgamestart = false;
@@ -209,6 +226,7 @@ void NGLScene::timerEvent(QTimerEvent *_event)
     }
   }
 
+  //creates animation delay buffer
   if (clocktimer.elapsed() >= startTime && clocktimer.elapsed() <= endTime)
   {
     istimerunning = true;
@@ -219,6 +237,7 @@ void NGLScene::timerEvent(QTimerEvent *_event)
     istimerunning = false;
   }
 
+  //flips cards back to face down after the buffer is over
   if (istimerunning == false && resetreveal == true)
   {
     for (int i = 0; i<cards.size(); i++)
@@ -241,12 +260,13 @@ void NGLScene::timerEvent(QTimerEvent *_event)
   update();
 }
 
-
+//load Matricies to shaders
 void NGLScene::loadMatricesToShader()
 {
   ngl::ShaderLib::setUniform("MVP", m_project*m_view*m_transform.getMatrix());
 }
 
+//Draw Scene
 void NGLScene::drawScene()
 {
   glEnable(GL_CULL_FACE);
@@ -260,7 +280,7 @@ void NGLScene::drawScene()
   rotX.rotateX(m_win.spinXFace);
   rotY.rotateY(m_win.spinYFace);
 
-  //Front Card0
+  //Set Texture for Front Card0
 
   glPolygonMode(GL_FRONT_FACE,GL_FILL);
   glCullFace(GL_FRONT);
@@ -276,7 +296,7 @@ void NGLScene::drawScene()
 
   } // and before a pop
 
-  //Back Card0
+  //Set Texture for Back Card0
 
   glPolygonMode(GL_BACK,GL_FILL);
   glCullFace(GL_BACK);
@@ -292,7 +312,7 @@ void NGLScene::drawScene()
 
   } // and before a pop
 
-  //Front Card1
+  //Set Texture for Front Card1
 
   glPolygonMode(GL_FRONT_FACE,GL_FILL);
   glCullFace(GL_FRONT);
@@ -306,7 +326,7 @@ void NGLScene::drawScene()
     ngl::VAOPrimitives::draw("plane1");
   } // and before a pop
 
-  //Back Card1
+  //Set Texture for Back Card1
 
   glPolygonMode(GL_BACK,GL_FILL);
   glCullFace(GL_BACK);
@@ -320,7 +340,7 @@ void NGLScene::drawScene()
     ngl::VAOPrimitives::draw("plane1");
   } // and before a pop
 
-  //Front Card2
+  //Set Texture for Front Card2
 
   glPolygonMode(GL_FRONT_FACE,GL_FILL);
   glCullFace(GL_FRONT);
@@ -334,7 +354,7 @@ void NGLScene::drawScene()
     ngl::VAOPrimitives::draw("plane2");
   } // and before a pop
 
-  //Back Card2
+  //Set Texture for Back Card2
 
   glPolygonMode(GL_BACK,GL_FILL);
   glCullFace(GL_BACK);
@@ -348,7 +368,7 @@ void NGLScene::drawScene()
     ngl::VAOPrimitives::draw("plane2");
   } // and before a pop
 
-  //Front Card3
+  //Set Texture for Front Card3
 
   glPolygonMode(GL_FRONT_FACE,GL_FILL);
   glCullFace(GL_FRONT);
@@ -362,7 +382,7 @@ void NGLScene::drawScene()
     ngl::VAOPrimitives::draw("plane3");
   } // and before a pop
 
-  //Back Card3
+  //Set Texture for Back Card3
 
   glPolygonMode(GL_BACK,GL_FILL);
   glCullFace(GL_BACK);
@@ -376,7 +396,7 @@ void NGLScene::drawScene()
     ngl::VAOPrimitives::draw("plane3");
   } // and before a pop
 
-  //Front Card4
+  //Set Texture for Front Card4
 
   glPolygonMode(GL_FRONT_FACE,GL_FILL);
   glCullFace(GL_FRONT);
@@ -390,7 +410,7 @@ void NGLScene::drawScene()
     ngl::VAOPrimitives::draw("plane4");
   } // and before a pop
 
-  //Back Card4
+  //Set Texture for Back Card4
 
   glPolygonMode(GL_BACK,GL_FILL);
   glCullFace(GL_BACK);
@@ -406,7 +426,7 @@ void NGLScene::drawScene()
 
   
 
-  //Front Card5
+  //Set Texture for Front Card5
 
   glPolygonMode(GL_FRONT_FACE,GL_FILL);
   glCullFace(GL_FRONT);
@@ -420,7 +440,7 @@ void NGLScene::drawScene()
     ngl::VAOPrimitives::draw("plane5");
   } // and before a pop
 
-  //Back Card5
+  //Set Texture for Back Card5
 
   glPolygonMode(GL_BACK,GL_FILL);
   glCullFace(GL_BACK);
@@ -434,7 +454,7 @@ void NGLScene::drawScene()
     ngl::VAOPrimitives::draw("plane5");
   } // and before a pop
 
-  //Front Card6
+  //Set Texture for Front Card6
 
   glPolygonMode(GL_FRONT_FACE,GL_FILL);
   glCullFace(GL_FRONT);
@@ -466,9 +486,7 @@ void NGLScene::paintGL()
 void NGLScene::keyPressEvent(QKeyEvent *_event)
 {
   // this method is called every time the main window recives a key event.
-  // we then switch on the key value and set the camera in the GLWindow
-
-
+  // this if statement resets the program after the keys are press.
   if (_event->key() == Qt::Key_R || _event->key() == Qt::Key_Tab)
   {
     gamestart = true;
@@ -486,8 +504,9 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
     m_isPairedTwo = false;
     m_isPairedThree = false;
 
-    printf("restarting!");
+   // printf("restarting!");
   }
+  // this if statement controlls the Right Selection Movement after the keys are press.
   if (gamestart == true && (_event->key() == Qt::Key_Up || _event->key() == Qt::Key_Right || _event->key() == Qt::Key_W || _event->key() == Qt::Key_D))
   {
     num_ofcard+=1; 
@@ -516,6 +535,7 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
     }
     printf("%d",num_ofcard);
   }
+  // this if statement controlls the Left Selection Movement after the keys are press.
   if (gamestart == true && (_event->key() == Qt::Key_Down || _event->key() == Qt::Key_Left || _event->key() == Qt::Key_S || _event->key() == Qt::Key_A))
   {
     num_ofcard-=1; 
@@ -543,11 +563,13 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
       m_selectionTool->setposition(ngl::Vec3(-4.965f,-0.98f,-10.01f));
     }
   }
+  // this if statement controlls the action upon selecting a card with the return/enter key.
   if (gamestart == true && _event->key() == Qt::Key_Return || _event->key() == Qt::Key_Enter)
   {
-
+    //runs if the card is face down
     if (cards[num_ofcard]->getcardstatus() == false)
     {
+      //checks the attempt numbers and texture numbers, records the card numbers
       cards[num_ofcard]->setanimationstatus(true);
       if (m_attemptOne == true){
         m_attemptTwo = true;
@@ -578,7 +600,8 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
         card1num = num_ofcard;
       }
     }
-
+    //runs on the condition that a turn is complete and two cards have been selected
+    //checks if the two cards are a pair or not bassed on if they share the same texture
     if ((m_attemptOne == true)&&(m_attemptTwo == true)){
         printf("are these the same card? \n");
         if ((choiceOnetxt == 0)&&(choiceTwotxt == 0)) 
@@ -608,6 +631,7 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
           m_attemptOne=false;
           m_attemptTwo=false;
         }
+    //if they are not the first pair flips them back over
     if ((m_attemptOne == true) && (m_attemptTwo == true) && (m_isPairedOne == false))
     {
       printf("first card num is: card %d\n",card1num);
@@ -625,7 +649,7 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
       m_attemptOne=false;
       m_attemptTwo=false;
     }
-
+    //if they are not the seccond pair flips them back over
     if ((m_attemptOne == true) && (m_attemptTwo == true) && (m_isPairedTwo == false))
     {
       printf("first card num is: card %d\n",card1num);
@@ -643,7 +667,7 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
       m_attemptOne=false;
       m_attemptTwo=false;
     }
-
+    //if they are not the third pair flips them back over
     if ((m_attemptOne == true) && (m_attemptTwo == true) && (m_isPairedThree == false))
     {
       printf("first card num is: card %d\n",card1num);
