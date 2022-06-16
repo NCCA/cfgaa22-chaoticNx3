@@ -559,7 +559,7 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
 
     printf("restarting!");
   }
-  if (gamestart == true && _event->key() == Qt::Key_Up || _event->key() == Qt::Key_Right || _event->key() == Qt::Key_W || _event->key() == Qt::Key_D)
+  if (gamestart == true && (_event->key() == Qt::Key_Up || _event->key() == Qt::Key_Right || _event->key() == Qt::Key_W || _event->key() == Qt::Key_D))
   {
     //  for (int i=0; i<=5; i++) mylist.push_back (i+1);
     //  std::cout << "mylist:";
@@ -593,7 +593,7 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
     }
     printf("%d",num_ofclicks);
   }
-  if (gamestart == true && _event->key() == Qt::Key_Down || _event->key() == Qt::Key_Left || _event->key() == Qt::Key_S || _event->key() == Qt::Key_A)
+  if (gamestart == true && (_event->key() == Qt::Key_Down || _event->key() == Qt::Key_Left || _event->key() == Qt::Key_S || _event->key() == Qt::Key_A))
   {
     //  for (int i=0; i<=5; i++) mylist.push_back (i+1);
     //  std::cout << "mylist:";
