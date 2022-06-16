@@ -36,11 +36,6 @@ void cardlist::setTextureStatus(int _cardTextureValue)
 {
 	m_cardTextureValue = _cardTextureValue;
 }
-
-ngl::Transformation cardlist::card_ls(ngl::Vec3 _getcardPL)
-{
-	return m_getcardPL;
-}
 void cardlist::setanimtansform(ngl::Transformation _cardanimation)
 {
 	m_cardanimation = _cardanimation;
@@ -48,10 +43,6 @@ void cardlist::setanimtansform(ngl::Transformation _cardanimation)
 void cardlist::setanimationstatus(bool _isAnimtrue)
 {
 	m_isAnimTrue = _isAnimtrue;
-}
-void cardlist::setstartanimationstatus(bool _isStartAnimtrue)
-{
-	m_isStartAnimTrue = _isStartAnimtrue;
 }
 void cardlist::setcardstatus(bool _iscardflipped)
 {

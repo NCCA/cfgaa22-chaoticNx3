@@ -42,8 +42,7 @@ add_executable(${TargetName})
 include_directories(include $ENV{HOME}/NGL/include)
 target_sources(${TargetName} PRIVATE ${PROJECT_SOURCE_DIR}/src/main.cpp  
 			${PROJECT_SOURCE_DIR}/src/NGLScene.cpp  
-            ${PROJECT_SOURCE_DIR}/src/cardlist.cpp 
-			${PROJECT_SOURCE_DIR}/src/NGLSceneMouseControls.cpp  
+            ${PROJECT_SOURCE_DIR}/src/cardlist.cpp  
 			${PROJECT_SOURCE_DIR}/include/NGLScene.h  
             ${PROJECT_SOURCE_DIR}/include/cardlist.h
 )
