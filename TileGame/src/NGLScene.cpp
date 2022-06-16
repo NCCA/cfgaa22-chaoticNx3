@@ -144,7 +144,7 @@ void NGLScene::initializeGL()
   cardtextr.setMultiTexture(4);
   m_cardtexture.push_back(cardtextr.setTextureGL());
 
-  //texture num suffeler for randomly assigned textures
+  //texture num shuffeled for randomly assigned textures
   std::random_device rd;
   std::mt19937 g(rd());
   std::shuffle(CardOrder.begin(),CardOrder.end(),g);
@@ -692,4 +692,3 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
   // finally update the GLWindow and re-draw
   update();
 } 
-
