@@ -45,7 +45,7 @@ Tile Game
 <p>The following are images of the Game Play:
 ![Capture6](doc/Capture6.png)
 ![Capture7](doc/Capture7.png)
-![Capture8](doc/Capture8.png)
+![Capture8](doc/Capture8.png)</p>
 
 
 
